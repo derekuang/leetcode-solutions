@@ -6,63 +6,43 @@
 
 package solution
 
-import "strings"
-
 // @lc code=start
 func checkInclusion(s1 string, s2 string) bool {
-	needs := map[byte]int{}
-	for i := 0; i < len(s1); i++ {
+	s1Len, s2Len := len(s1), len(s2)
+	if s1Len > s2Len {
+		return false
+	}
+
+	cnts, needs := map[byte]int{}, map[byte]int{}
+	for i := 0; i < s1Len; i++ {
 		needs[s1[i]]++
+		cnts[s2[i]]++
 	}
 
-	// Return state code
-	contain := func(cnts map[byte]int) int {
+	isContain := func() bool {
 		for k, v := range needs {
-			if cnts[k] < v {
-				return 1
-			} else if cnts[k] > v {
-				return 2
+			if cnts[k] != v {
+				return false
 			}
 		}
-		return 0
+		return true
 	}
 
-	for l, r := 0, 0; r < len(s2); r++ {
-		cnts := map[byte]int{}
-		l, r = filter(r, s1, s2)
-		flag := true
-
-		for flag && l <= r {
-			switch contain(cnts) {
-			case 0:
-				return true
-			case 1:
-				if r < len(s2) && strings.ContainsRune(s1, rune(s2[r])) {
-					cnts[s2[r]]++
-					r++
-				} else if r >= len(s2) {
-					return false
-				} else {
-					flag = false
-				}
-			case 2:
-				cnts[s2[l]]--
-				l++
-			default:
-				continue
-			}
+	l, r := 0, s1Len
+	for r <= s2Len {
+		if isContain() {
+			return true
+		} else if r < s2Len {
+			cnts[s2[l]]--
+			cnts[s2[r]]++
+			l++
+			r++
+		} else {
+			return false
 		}
-
 	}
 
 	return false
-}
-
-func filter(p int, s1, s2 string) (int, int) {
-	if !strings.ContainsRune(s1, rune(s2[p])) {
-		p++
-	}
-	return p, p
 }
 
 // @lc code=end
