@@ -7,27 +7,27 @@
 package solution
 
 // @lc code=start
-// func jump(nums []int) int {
-// 	step, pos, end, length := 0, 0, 0, len(nums)
-// 	for i := 0; i < length-1; i++ {
-// 		pos = max(pos, i+nums[i])
-// 		if pos >= length-1 {
-// 			return step + 1
-// 		}
-// 		if i == end {
-// 			end = pos
-// 			step++
-// 		}
-// 	}
+func jump(nums []int) int {
+	max := func(x, y int) int {
+		if x > y {
+			return x
+		}
+		return y
+	}
 
-// 	return step
-// }
+	step, pos, end, length := 0, 0, 0, len(nums)
+	for i := 0; i < length-1; i++ {
+		pos = max(pos, i+nums[i])
+		if pos >= length-1 {
+			return step + 1
+		}
+		if i == end {
+			end = pos
+			step++
+		}
+	}
 
-// func max(x, y int) int {
-// 	if x > y {
-// 		return x
-// 	}
-// 	return y
-// }
+	return step
+}
 
 // @lc code=end

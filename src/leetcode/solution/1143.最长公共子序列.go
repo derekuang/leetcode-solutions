@@ -8,6 +8,13 @@ package solution
 
 // @lc code=start
 func longestCommonSubsequence(text1 string, text2 string) int {
+	max := func(x, y int) int {
+		if x > y {
+			return x
+		}
+		return y
+	}
+
 	dp := make([][]int, len(text1)+1)
 	for i := 0; i < len(dp); i++ {
 		dp[i] = make([]int, len(text2)+1)
@@ -18,22 +25,12 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 			if text1[i-1] == text2[j-1] {
 				dp[i][j] = dp[i-1][j-1] + 1
 			} else {
-				dp[i][j] = Max(dp[i-1][j], dp[i][j-1])
+				dp[i][j] = max(dp[i-1][j], dp[i][j-1])
 			}
 		}
 	}
 
 	return dp[len(text1)][len(text2)]
-}
-
-// Max Return the max number of all given numbers
-func Max(ret int, nums ...int) int {
-	for _, num := range nums {
-		if num > ret {
-			ret = num
-		}
-	}
-	return ret
 }
 
 // @lc code=end

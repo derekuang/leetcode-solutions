@@ -8,6 +8,13 @@ package solution
 
 // @lc code=start
 func minCut(s string) int {
+	min := func(x, y int) int {
+		if x < y {
+			return x
+		}
+		return y
+	}
+
 	if len(s) <= 1 {
 		return 0
 	}
@@ -44,12 +51,5 @@ func isPalindrome(s string) bool {
 
 	return true
 }
-
-// func min(x, y int) int {
-// 	if x < y {
-// 		return x
-// 	}
-// 	return y
-// }
 
 // @lc code=end

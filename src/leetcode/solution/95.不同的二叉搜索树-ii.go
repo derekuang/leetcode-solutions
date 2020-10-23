@@ -28,13 +28,20 @@ type anchor struct {
 }
 
 func generateTrees(n int) []*TreeNode {
+	max := func(x, y int) int {
+		if x > y {
+			return x
+		}
+		return y
+	}
+
 	// Calculate the number of binary search trees can be generated with n
 	nums := make([]int, n+1)
 	for i := 1; i <= n; i++ {
 		acc := 0
 		for j := 1; j <= i; j++ {
-			l := Max(1, nums[j-1])
-			r := Max(1, nums[i-j])
+			l := max(1, nums[j-1])
+			r := max(1, nums[i-j])
 			acc += (l * r)
 		}
 		nums[i] = acc

@@ -8,6 +8,13 @@ package solution
 
 // @lc code=start
 func coinChange(coins []int, amount int) int {
+	min := func(x, y int) int {
+		if x < y {
+			return x
+		}
+		return y
+	}
+
 	dp := make([]int, amount+1)
 	dp[0] = 0
 	for i := 1; i <= amount; i++ {
@@ -26,15 +33,6 @@ func coinChange(coins []int, amount int) int {
 		return -1
 	}
 	return dp[amount]
-}
-
-func min(ret int, nums ...int) int {
-	for _, num := range nums {
-		if num < ret {
-			ret = num
-		}
-	}
-	return ret
 }
 
 // @lc code=end
