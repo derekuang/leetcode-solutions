@@ -8,10 +8,6 @@ package solution
 
 // @lc code=start
 func lengthOfLongestSubstring(s string) int {
-	if len(s) <= 1 {
-		return len(s)
-	}
-
 	res, cnts := 0, map[byte]int{}
 	for l, r := 0, 0; r < len(s); r++ {
 		cnts[s[r]]++
