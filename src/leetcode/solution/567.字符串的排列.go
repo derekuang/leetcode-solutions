@@ -13,32 +13,38 @@ func checkInclusion(s1 string, s2 string) bool {
 		return false
 	}
 
-	cnts, needs := map[byte]int{}, map[byte]int{}
+	matches, cnts, needs := 0, map[byte]int{}, map[byte]int{}
 	for i := 0; i < s1Len; i++ {
 		needs[s1[i]]++
 		cnts[s2[i]]++
 	}
-
-	isContain := func() bool {
-		for k, v := range needs {
-			if cnts[k] != v {
-				return false
-			}
+	for i := byte('a'); i <= 'z'; i++ {
+		if needs[i] == cnts[i] {
+			matches++
 		}
-		return true
 	}
 
-	l, r := 0, s1Len
-	for r <= s2Len {
-		if isContain() {
+	l, r := 0, s1Len-1
+	for r < s2Len {
+		if matches == 26 {
 			return true
-		} else if r < s2Len {
-			cnts[s2[l]]--
-			cnts[s2[r]]++
-			l++
-			r++
-		} else {
+		}
+		if r == s2Len-1 {
 			return false
+		}
+		cnts[s2[l]]--
+		l++
+		if cnts[s2[l-1]] == needs[s2[l-1]] {
+			matches++
+		} else if cnts[s2[l-1]] == needs[s2[l-1]]-1 {
+			matches--
+		}
+		cnts[s2[r+1]]++
+		r++
+		if cnts[s2[r]] == needs[s2[r]] {
+			matches++
+		} else if cnts[s2[r]] == needs[s2[r]]+1 {
+			matches--
 		}
 	}
 
