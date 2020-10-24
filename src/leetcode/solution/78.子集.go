@@ -13,7 +13,12 @@ func subsets(nums []int) [][]int {
 	// Get the [i]int{} array
 	for i := 1; i <= len(nums); i++ {
 		arr, pList := make([]int, i), make([]int, i)
+		for j := 0; j < i; j++ {
+			pList[j] = j
+		}
+		for pList[0] != len(nums)-i+1 {
 
+		}
 		res = append(res, arr)
 	}
 }
