@@ -11,47 +11,27 @@ func deleteNode(root *TreeNode, key int) *TreeNode {
 	if root == nil {
 		return nil
 	}
-	dummy := &TreeNode{}
-	dummy.Left = root
 
-	pre, target := dummy, root
-	for target != nil && target.Val != key {
-		pre = target
-		if target.Val > key {
-			target = target.Left
-		} else {
-			target = target.Right
-		}
-	}
-	if target == nil {
-		return root
-	}
-
-	if target.Left == nil {
-		if pre.Left == target {
-			pre.Left = target.Right
-		} else {
-			pre.Right = target.Right
-		}
-	} else if target.Right == nil {
-		if pre.Left == target {
-			pre.Left = target.Left
-		} else {
-			pre.Right = target.Left
-		}
+	if root.Val > key {
+		root.Left = deleteNode(root.Left, key)
+	} else if root.Val < key {
+		root.Right = deleteNode(root.Right, key)
 	} else {
-		l, r := target.Left, target.Right
-		if pre.Left == target {
-			pre.Left = l
-		} else {
-			pre.Right = l
+		if root.Left == nil {
+			return root.Right
 		}
-		for l.Right != nil {
-			l = l.Right
+		if root.Right == nil {
+			return root.Left
 		}
-		l.Right = r
+		p := root.Left
+		for p.Right != nil {
+			p = p.Right
+		}
+		p.Right = root.Right
+		root = root.Left
 	}
-	return dummy.Left
+
+	return root
 }
 
 // @lc code=end
