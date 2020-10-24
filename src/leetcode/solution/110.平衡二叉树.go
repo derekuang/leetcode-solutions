@@ -6,32 +6,40 @@
 
 package solution
 
-import "math"
-
 // @lc code=start
 
 func isBalanced(root *TreeNode) bool {
-	if root == nil {
-		return true
-	}
-	lDepth := getDepth(root.Left)
-	rDepth := getDepth(root.Right)
-	if math.Abs(float64(lDepth-rDepth)) > 1 {
-		return false
-	}
-	return isBalanced(root.Left) && isBalanced(root.Right)
+	return height(root) >= 0
 }
 
-func getDepth(root *TreeNode) int {
+func height(root *TreeNode) int {
 	if root == nil {
 		return 0
 	}
-	lDepth := getDepth(root.Left)
-	rDepth := getDepth(root.Right)
-	if lDepth > rDepth {
-		return lDepth + 1
+
+	abs := func(x, y int) int {
+		if x > y {
+			return x - y
+		}
+		return y - x
 	}
-	return rDepth + 1
+
+	lHeight := height(root.Left)
+	if lHeight == -1 {
+		return -1
+	}
+	rHeight := height(root.Right)
+	if rHeight == -1 {
+		return -1
+	}
+	if abs(lHeight, rHeight) > 1 {
+		return -1
+	}
+
+	if lHeight > rHeight {
+		return lHeight + 1
+	}
+	return rHeight + 1
 }
 
 // @lc code=end
