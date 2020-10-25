@@ -7,18 +7,22 @@
 package solution
 
 // @lc code=start
-func subsets(nums []int) (res [][]int) {
-	len := len(nums)
-	for mask := 0; mask < (1 << len); mask++ {
-		set := []int{}
-		for i, num := range nums {
-			if (mask>>i)&1 > 0 {
-				// num should present in the set
-				set = append(set, num)
-			}
+func subsets(nums []int) (ans [][]int) {
+	n, set := len(nums), []int{}
+	var dfs func(cur int)
+	dfs = func(cur int) {
+		if cur == n {
+			ans = append(ans, append([]int(nil), set...))
+			return
 		}
-		res = append(res, append([]int(nil), set...))
+		// nums[cur] should be present
+		set = append(set, nums[cur])
+		dfs(cur + 1)
+		// nums[cur] should be absent
+		set = set[:len(set)-1]
+		dfs(cur + 1)
 	}
+	dfs(0)
 	return
 }
 
