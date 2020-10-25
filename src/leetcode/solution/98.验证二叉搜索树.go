@@ -4,13 +4,11 @@
  * [98] 验证二叉搜索树
  */
 
-// Definition for a binary tree node.
-// type TreeNode struct {
-//     Val int
-//     Left *TreeNode
-//     Right *TreeNode
-// }
+package solution
 
+import "math"
+
+// @lc code=start
 func isValidBST(root *TreeNode) bool {
 	return helper(root, math.MinInt64, math.MaxInt64)
 }
@@ -28,4 +26,3 @@ func helper(node *TreeNode, min, max int) bool {
 }
 
 // @lc code=end
-
