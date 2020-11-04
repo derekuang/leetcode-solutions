@@ -8,56 +8,37 @@ package solution
 
 // @lc code=start
 func insert(intervals [][]int, newInterval []int) (ans [][]int) {
-	p := 0
-	flag := true
-	for p < len(intervals) && flag {
-		l, r := newInterval[0], newInterval[1]
-		set := make([]int, 2)
-		if l > intervals[p][0] {
-			set[0] = intervals[p][0]
-			if l > intervals[p][1] {
-				set[1] = intervals[p][1]
-				p++
-			} else {
-				// l <= intervals[p][1]
-				for p < len(intervals) && r > intervals[p][1] {
-					p++
-				}
-				if p >= len(intervals) || r < intervals[p][0] {
-					set[1] = r
-				} else {
-					set[1] = intervals[p][1]
-					p++
-				}
-				flag = false
-			}
-		} else {
-			// l <= intervals[p][0]
-			set[0] = l
-			if r < intervals[p][0] {
-				set[1] = r
-			} else {
-				// r >= intervals[p][0]
-				for p < len(intervals) && r > intervals[p][1] {
-					p++
-				}
-				if p >= len(intervals) || r < intervals[p][0] {
-					set[1] = r
-				} else {
-					set[1] = intervals[p][1]
-					p++
-				}
-			}
-			flag = false
+	min := func(x, y int) int {
+		if x < y {
+			return x
 		}
-		ans = append(ans, set)
+		return y
 	}
-	if flag {
-		ans = append(ans, append([]int{}, newInterval...))
+	max := func(x, y int) int {
+		if x > y {
+			return x
+		}
+		return y
 	}
-	for p < len(intervals) {
-		ans = append(ans, append([]int{}, intervals[p]...))
-		p++
+
+	l, r := newInterval[0], newInterval[1]
+	merged := false
+	for _, interval := range intervals {
+		if interval[0] > r {
+			if !merged {
+				ans = append(ans, []int{l, r})
+				merged = true
+			}
+			ans = append(ans, interval)
+		} else if interval[1] < l {
+			ans = append(ans, interval)
+		} else {
+			l = min(l, interval[0])
+			r = max(r, interval[1])
+		}
+	}
+	if !merged {
+		ans = append(ans, []int{l, r})
 	}
 	return
 }
