@@ -2,3 +2,4 @@
 bin
 pkg
 src/leetcode/test.go
+src/leetcode/solution/testHelper.go
