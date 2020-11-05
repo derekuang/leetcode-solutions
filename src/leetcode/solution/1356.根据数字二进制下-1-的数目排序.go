@@ -11,7 +11,7 @@ import "sort"
 // @lc code=start
 type arr1356 []int
 
-var hash map[int]int
+var hash []int
 
 func (arr arr1356) Len() int {
 	return len(arr)
@@ -29,16 +29,9 @@ func (arr arr1356) Swap(i, j int) {
 }
 
 func sortByBits(arr []int) []int {
-	hash = make(map[int]int, len(arr))
-	for _, v := range arr {
-		t, cnt := v, 0
-		for t != 0 {
-			if t&1 == 1 {
-				cnt++
-			}
-			t >>= 1
-		}
-		hash[v] = cnt
+	hash = make([]int, 10001)
+	for i := 0; i < len(hash); i++ {
+		hash[i] = hash[i>>1] + i&1
 	}
 
 	sort.Stable(arr1356(arr))
