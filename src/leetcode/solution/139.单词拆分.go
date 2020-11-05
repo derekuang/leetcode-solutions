@@ -7,7 +7,7 @@
 package solution
 
 // @lc code=start
-func wordBreak(s string, wordDict []string) bool {
+func wordBreak139(s string, wordDict []string) bool {
 	wordDictMap := make(map[string]bool)
 	for _, word := range wordDict {
 		wordDictMap[word] = true
