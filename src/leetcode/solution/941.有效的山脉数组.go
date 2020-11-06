@@ -7,34 +7,24 @@
 package solution
 
 // @lc code=start
-const (
-	UP      = iota
-	DOWN    = iota
-	ILLEGAL = iota
-)
-
 func validMountainArray(arr []int) bool {
-	if len(arr) < 3 || arr[1] < arr[0] {
+	if len(arr) < 3 || arr[1] < arr[0] || arr[len(arr)-1] > arr[len(arr)-2] {
 		return false
 	}
-	dir := UP
-	for i := 1; i < len(arr); i++ {
-		if dir == ILLEGAL {
-			return false
+	l, r := 0, len(arr)-1
+	for l < len(arr) {
+		if arr[l+1] <= arr[l] {
+			break
 		}
-		if arr[i] == arr[i-1] {
-			return false
-		} else if dir == UP && arr[i] > arr[i-1] ||
-			dir == DOWN && arr[i] < arr[i-1] {
-			continue
-		} else {
-			dir++
+		l++
+	}
+	for r > 0 {
+		if arr[r-1] <= arr[r] {
+			break
 		}
+		r--
 	}
-	if dir != DOWN {
-		return false
-	}
-	return true
+	return l == r
 }
 
 // @lc code=end
