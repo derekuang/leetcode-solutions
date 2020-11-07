@@ -7,7 +7,7 @@
 package solution
 
 // @lc code=start
-func maxProfit(prices []int) int {
+func maxProfit(prices []int) (profits int) {
 	max := func(x, y int) int {
 		if x > y {
 			return x
@@ -15,13 +15,10 @@ func maxProfit(prices []int) int {
 		return y
 	}
 
-	dp0, dp1 := 0, -prices[0]
 	for i := 1; i < len(prices); i++ {
-		dp0 = max(dp0, dp1+prices[i])
-		dp1 = max(dp1, dp0-prices[i])
+		profits += max(0, prices[i]-prices[i-1])
 	}
-
-	return dp0
+	return
 }
 
 // @lc code=end
