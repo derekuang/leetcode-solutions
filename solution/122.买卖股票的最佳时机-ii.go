@@ -7,19 +7,21 @@
 package solution
 
 // @lc code=start
-func maxProfit(prices []int) (profits int) {
-	profit := 0
-	for buy, sell := 0, 1; sell < len(prices); sell++ {
-		if prices[sell] <= prices[sell-1] {
-			buy = sell
-			profits += profit
-			profit = 0
-		} else if prices[sell]-prices[buy] > profit {
-			profit = prices[sell] - prices[buy]
+func maxProfit(prices []int) int {
+	max := func(x, y int) int {
+		if x > y {
+			return x
 		}
+		return y
 	}
-	profits += profit
-	return
+
+	dp0, dp1 := 0, -prices[0]
+	for i := 1; i < len(prices); i++ {
+		dp0 = max(dp0, dp1+prices[i])
+		dp1 = max(dp1, dp0-prices[i])
+	}
+
+	return dp0
 }
 
 // @lc code=end
