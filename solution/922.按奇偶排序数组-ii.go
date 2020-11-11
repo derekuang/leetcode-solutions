@@ -11,18 +11,25 @@ import "sort"
 // @lc code=start
 func sortArrayByParityII(A []int) []int {
 	sort.Ints(A)
-	ans := make([]int, len(A))
-	even, odd := 0, 1
-	for _, a := range A {
-		if a%2 == 0 {
-			ans[even] = a
-			even += 2
+	for i := 0; i < len(A); {
+		if (i%2 == 0 && A[i]%2 != 0) || (i%2 != 0 && A[i]%2 == 0) {
+			remain := i % 2
+			j := i + 1
+			for A[j]%2 != remain {
+				j++
+			}
+			t := A[j]
+			for j > i {
+				A[j] = A[j-1]
+				j--
+			}
+			A[i] = t
+			i += 2
 		} else {
-			ans[odd] = a
-			odd += 2
+			i++
 		}
 	}
-	return ans
+	return A
 }
 
 // @lc code=end
