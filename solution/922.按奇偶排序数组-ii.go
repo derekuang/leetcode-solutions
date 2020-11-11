@@ -6,27 +6,14 @@
 
 package solution
 
-import "sort"
-
 // @lc code=start
 func sortArrayByParityII(A []int) []int {
-	sort.Ints(A)
-	for i := 0; i < len(A); {
-		if (i%2 == 0 && A[i]%2 != 0) || (i%2 != 0 && A[i]%2 == 0) {
-			remain := i % 2
-			j := i + 1
-			for A[j]%2 != remain {
-				j++
+	for even, odd := 0, 1; even < len(A); even += 2 {
+		if A[even]%2 != 0 {
+			for A[odd]%2 != 0 {
+				odd += 2
 			}
-			t := A[j]
-			for j > i {
-				A[j] = A[j-1]
-				j--
-			}
-			A[i] = t
-			i += 2
-		} else {
-			i++
+			A[even], A[odd] = A[odd], A[even]
 		}
 	}
 	return A
