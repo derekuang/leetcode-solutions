@@ -6,36 +6,43 @@
 
 package solution
 
+import "math"
+
 // @lc code=start
 func findMedianSortedArrays(nums1, nums2 []int) float64 {
 	totalLen := len(nums1) + len(nums2)
-	mergeNums := make([]int, totalLen)
-	p, q, m := 0, 0, 0
-	for p < len(nums1) && q < len(nums2) {
-		if nums1[p] <= nums2[q] {
-			mergeNums[m] = nums1[p]
-			p++
-		} else {
-			mergeNums[m] = nums2[q]
-			q++
-		}
-		m++
-	}
-	for p < len(nums1) {
-		mergeNums[m] = nums1[p]
-		p++
-		m++
-	}
-	for q < len(nums2) {
-		mergeNums[m] = nums2[q]
-		q++
-		m++
-	}
-	mid := totalLen / 2
+	var pos1, pos2 int
 	if totalLen%2 == 0 {
-		return float64(mergeNums[mid]+mergeNums[mid-1]) / 2
+		pos1, pos2 = totalLen/2-1, totalLen/2
+	} else {
+		pos1, pos2 = totalLen/2, totalLen/2
 	}
-	return float64(mergeNums[mid])
+	acc, p, q := 0, 0, 0
+	target1, target2 := 0, 0
+	nums1 = append(nums1, math.MaxInt64)
+	nums2 = append(nums2, math.MaxInt64)
+	for acc <= pos2 {
+		if nums1[p] <= nums2[q] {
+			if acc == pos1 {
+				target1 = nums1[p]
+			}
+			if acc == pos2 {
+				target2 = nums1[p]
+			}
+			p++
+			acc++
+		} else {
+			if acc == pos1 {
+				target1 = nums2[q]
+			}
+			if acc == pos2 {
+				target2 = nums2[q]
+			}
+			q++
+			acc++
+		}
+	}
+	return float64(target1+target2) / 2
 }
 
 // @lc code=end
