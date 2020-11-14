@@ -8,14 +8,15 @@ package solution
 
 // @lc code=start
 func twoSum(nums []int, target int) []int {
-	m := map[int]int{}
-	for i, v := range nums {
-		if m[target-v] != 0 {
-			return []int{m[target-v] - 1, i}
+	m := make(map[int]int)
+	for i := 0; i < len(nums); i++ {
+		rest := target - nums[i]
+		if _, ok := m[rest]; ok {
+			return []int{m[rest], i}
 		}
-		m[v] = i + 1
+		m[nums[i]] = i
 	}
-	return []int{}
+	return nil
 }
 
 // @lc code=end
