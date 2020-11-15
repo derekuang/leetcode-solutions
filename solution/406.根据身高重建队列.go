@@ -6,46 +6,36 @@
 
 package solution
 
+import "math"
+
 // @lc code=start
 func reconstructQueue(people [][]int) [][]int {
 	n := len(people)
-	stack := make([]int, n)
-	for i := 0; i < n; i++ {
-		stack[i] = n - 1 - i
-	}
-	for len(stack) > 0 {
-		p := stack[len(stack)-1] // pop
-		pHeight, pNum := people[p][0], people[p][1]
-		cnt := 0
-		for i := 0; i < p; i++ {
-			if people[i][0] >= pHeight {
-				cnt++
+	cnt, checkin := 0, make([]bool, n)
+	people = append(people, []int{math.MaxInt64, 0})
+	getMin := func() int {
+		min := n
+		for i, b := range checkin {
+			if !b && people[i][0] < people[min][0] {
+				min = i
 			}
 		}
-		if cnt == pNum {
-			stack = stack[:len(stack)-1]
-		} else if cnt < pNum {
-			for ; cnt < pNum; p++ {
-				if people[p+1][0] >= pHeight {
-					cnt++
-				}
-				people[p], people[p+1] = people[p+1], people[p]
-			}
-		} else { // cnt > pNum
-			stack = stack[:len(stack)-1]
-			for ; cnt > pNum; p-- {
-				if people[p-1][0] > pHeight {
-					cnt--
-				} else if people[p-1][0] < pHeight {
-					stack = append(stack, p)
-				} else {
-					cnt--
-					stack = append(stack, p)
-				}
-				people[p-1], people[p] = people[p], people[p-1]
+		return min
+	}
+	for cnt < n-1 {
+		p := getMin()
+		p0, p1 := people[p][0], people[p][1]
+		acc := 0
+		for i := 0; i <= p1+acc; i++ {
+			if checkin[i] && people[i][0] < p0 {
+				acc++
 			}
 		}
+		people[p], people[p1+acc] = people[p1+acc], people[p]
+		checkin[p1+acc] = true
+		cnt++
 	}
+	people = people[:n]
 	return people
 }
 
