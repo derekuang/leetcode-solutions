@@ -8,28 +8,21 @@ package solution
 
 // @lc code=start
 func maxArea(height []int) (ans int) {
-	var l, r int
-	for r = 1; r < len(height); r++ {
-		for l = 0; l < r; l++ {
-			v := min11(height[l], height[r]) * (r - l)
-			ans = max11(ans, v)
+	l, r := 0, len(height)-1
+	for l < r {
+		w, h := r-l, 0
+		if height[l] < height[r] {
+			h = height[l]
+			l++
+		} else {
+			h = height[r]
+			r--
+		}
+		if w*h > ans {
+			ans = w * h
 		}
 	}
 	return ans
-}
-
-func min11(x, y int) int {
-	if x <= y {
-		return x
-	}
-	return y
-}
-
-func max11(x, y int) int {
-	if x >= y {
-		return x
-	}
-	return y
 }
 
 // @lc code=end
