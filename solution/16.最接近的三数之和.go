@@ -14,15 +14,19 @@ func threeSumClosest(nums []int, target int) int {
 	n := len(nums)
 	t, ans := 0, nums[0]+nums[1]+nums[2]
 	for p1 := 0; p1 < n-2; p1++ {
-		for p2 := p1 + 1; p2 < n-1; p2++ {
-			for p3 := p2 + 1; p3 < n; p3++ {
-				t = nums[p1] + nums[p2] + nums[p3]
-				d1, d2 := abs16(ans-target), abs16(t-target)
-				if d2 < d1 {
-					ans = t
-				} else if d1 < d2 && t > ans {
-					break
-				}
+		for p2, p3 := p1+1, n-1; p2 < p3; {
+			t = nums[p1] + nums[p2] + nums[p3]
+			if t == target {
+				return t
+			}
+			d1, d2 := abs16(ans-target), abs16(t-target)
+			if d2 < d1 {
+				ans = t
+			}
+			if t > target {
+				p3--
+			} else {
+				p2++
 			}
 		}
 	}
