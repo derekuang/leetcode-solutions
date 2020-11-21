@@ -12,6 +12,7 @@ func searchRange(nums []int, target int) []int {
 	if n == 0 {
 		return []int{-1, -1}
 	}
+
 	low, mid, high := 0, 0, n-1
 	for low <= high {
 		mid = (low + high) / 2
@@ -24,13 +25,39 @@ func searchRange(nums []int, target int) []int {
 			low = mid + 1
 		}
 	}
+
 	if nums[mid] != target {
 		return []int{-1, -1}
 	}
-	for low = mid; low-1 >= 0 && nums[low-1] == target; low-- {
+
+	l, m, r := 0, 0, mid
+	for l <= r {
+		m = (l + r) / 2
+		if nums[m] == target && (m == 0 || nums[m-1] != target) {
+			break
+		}
+		if nums[m] == target {
+			r = m - 1
+		} else {
+			l = m + 1
+		}
 	}
-	for high = mid; high+1 < n && nums[high+1] == target; high++ {
+	low = m
+
+	l, m, r = mid, 0, n-1
+	for l <= r {
+		m = (l + r) / 2
+		if nums[m] == target && (m == n-1 || nums[m+1] != target) {
+			break
+		}
+		if nums[m] == target {
+			l = m + 1
+		} else {
+			r = m - 1
+		}
 	}
+	high = m
+
 	return []int{low, high}
 }
 
