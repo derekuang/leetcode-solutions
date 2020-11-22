@@ -6,8 +6,10 @@
 
 package solution
 
+import "strings"
+
 // @lc code=start
-func wordBreak(s string, wordDict []string) (ans []string) {
+func wordBreak(s string, wordDict []string) []string {
 	isContainWord := func(w string) bool {
 		for _, word := range wordDict {
 			if w == word {
@@ -17,26 +19,30 @@ func wordBreak(s string, wordDict []string) (ans []string) {
 		return false
 	}
 
-	if s == "" {
-		return
+	n := len(s)
+	if n == 0 {
+		return []string{}
 	}
 
-	n := len(s)
+	prev := map[int][]string{}
+	prev[0] = []string{""}
+
 	for i := 1; i <= n; i++ {
-		w1 := s[:i]
-		if isContainWord(w1) {
-			rest := wordBreak(s[i:], wordDict)
-			if len(rest) > 0 {
-				for _, w := range rest {
-					w1 = w1 + " " + w
-					ans = append(ans, w1)
+		for pre := range prev {
+			cur := s[pre:i]
+			if isContainWord(cur) {
+				for _, word := range prev[pre] {
+					prev[i] = append(prev[i], word+" "+cur)
 				}
-			} else if i == n {
-				ans = append(ans, w1)
 			}
 		}
 	}
-	return
+
+	ans := prev[n]
+	for i := range ans {
+		ans[i] = strings.TrimLeft(ans[i], " ")
+	}
+	return prev[n]
 }
 
 // @lc code=end
