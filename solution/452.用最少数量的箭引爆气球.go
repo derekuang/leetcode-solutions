@@ -11,30 +11,13 @@ import (
 )
 
 // @lc code=start
-type arr452 [][]int
-
-func (pt arr452) Len() int {
-	return len(pt)
-}
-func (pt arr452) Less(i, j int) bool {
-	if pt[i][0] < pt[j][0] {
-		return true
-	} else if pt[i][0] == pt[j][0] && pt[i][1] <= pt[j][1] {
-		return true
-	}
-	return false
-}
-func (pt arr452) Swap(i, j int) {
-	pt[i], pt[j] = pt[j], pt[i]
-}
-
 func findMinArrowShots(points [][]int) (count int) {
 	n := len(points)
 	if n < 2 {
 		return n
 	}
 
-	sort.Sort(arr452(points))
+	sort.Slice(points, func(i, j int) bool { return points[i][0] < points[j][0] })
 	p := n - 1
 	for p >= 0 {
 		count++
