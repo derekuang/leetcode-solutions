@@ -9,40 +9,39 @@ package solution
 import "strings"
 
 // @lc code=start
-func wordBreak(s string, wordDict []string) []string {
-	isContainWord := func(w string) bool {
-		for _, word := range wordDict {
-			if w == word {
-				return true
-			}
-		}
-		return false
+func wordBreak(s string, wordDict []string) (sentences []string) {
+	wordSet := map[string]struct{}{}
+	for _, w := range wordDict {
+		wordSet[w] = struct{}{}
 	}
 
 	n := len(s)
-	if n == 0 {
-		return []string{}
-	}
-
-	prev := map[int][]string{}
-	prev[0] = []string{""}
-
-	for i := 1; i <= n; i++ {
-		for pre := range prev {
-			cur := s[pre:i]
-			if isContainWord(cur) {
-				for _, word := range prev[pre] {
-					prev[i] = append(prev[i], word+" "+cur)
+	dp := make([][][]string, n)
+	var backtrack func(index int) [][]string
+	backtrack = func(index int) [][]string {
+		if dp[index] != nil {
+			return dp[index]
+		}
+		wordsList := [][]string{}
+		for i := index + 1; i < n; i++ {
+			word := s[index:i]
+			if _, has := wordSet[word]; has {
+				for _, nextWords := range backtrack(i) {
+					wordsList = append(wordsList, append([]string{word}, nextWords...))
 				}
 			}
 		}
+		word := s[index:]
+		if _, has := wordSet[word]; has {
+			wordsList = append(wordsList, []string{word})
+		}
+		dp[index] = wordsList
+		return wordsList
 	}
-
-	ans := prev[n]
-	for i := range ans {
-		ans[i] = strings.TrimLeft(ans[i], " ")
+	for _, words := range backtrack(0) {
+		sentences = append(sentences, strings.Join(words, " "))
 	}
-	return prev[n]
+	return
 }
 
 // @lc code=end
