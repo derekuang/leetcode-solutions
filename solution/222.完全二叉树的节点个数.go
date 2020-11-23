@@ -11,7 +11,25 @@ func countNodes(root *TreeNode) int {
 	if root == nil {
 		return 0
 	}
-	return 1 + countNodes(root.Left) + countNodes(root.Right)
+
+	count := 1
+	stack := []*TreeNode{root}
+	for true {
+		node := stack[0]
+		stack = stack[1:]
+		if node.Left != nil {
+			if node.Right != nil {
+				count += 2
+				stack = append(stack, node.Left, node.Right)
+			} else {
+				count++
+				break
+			}
+		} else {
+			break
+		}
+	}
+	return count
 }
 
 // @lc code=end
