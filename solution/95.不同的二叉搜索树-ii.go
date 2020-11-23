@@ -6,23 +6,7 @@
 
 package solution
 
-// TreeNode Data structure
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
-
 // @lc code=start
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-
 type anchor struct {
 	start, end int
 }

@@ -16,3 +16,10 @@ func makeLinkedList(nums []int) *ListNode {
 	}
 	return dummy.Next
 }
+
+// TreeNode Data structure
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
