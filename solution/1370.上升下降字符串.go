@@ -13,16 +13,25 @@ func sortString(s string) string {
 	for _, c := range s {
 		counter[c]++
 	}
+	unique := []rune{}
+	for c := 'a'; c <= 'z'; c++ {
+		if counter[c] > 0 {
+			unique = append(unique, c)
+		}
+	}
+	uLen := len(unique)
 
 	ans := []byte{}
 	for len(ans) < sLen {
-		for c := 'a'; c <= 'z'; c++ {
+		for i := 0; i < uLen; i++ {
+			c := unique[i]
 			if counter[c] > 0 {
 				counter[c]--
 				ans = append(ans, byte(c))
 			}
 		}
-		for c := 'z'; c >= 'a'; c-- {
+		for i := uLen - 1; i >= 0; i-- {
+			c := unique[i]
 			if counter[c] > 0 {
 				counter[c]--
 				ans = append(ans, byte(c))
