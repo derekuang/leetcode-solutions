@@ -7,7 +7,7 @@
 package solution
 
 // @lc code=start
-func minCut(s string) int {
+func minCut132(s string) int {
 	min := func(x, y int) int {
 		if x < y {
 			return x
