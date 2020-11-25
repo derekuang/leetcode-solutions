@@ -7,7 +7,7 @@
 package solution
 
 // @lc code=start
-func minCut132(s string) int {
+func minCut(s string) int {
 	min := func(x, y int) int {
 		if x < y {
 			return x
@@ -39,7 +39,7 @@ func minCut132(s string) int {
 	return cuts[len(s)-1]
 }
 
-func isPalindrome(s string) bool {
+func isPalindrome132(s string) bool {
 	start, end := 0, len(s)-1
 	for start < end {
 		if s[start] != s[end] {
