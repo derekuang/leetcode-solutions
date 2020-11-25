@@ -7,7 +7,7 @@
 package solution
 
 // @lc code=start
-func rotate(nums []int, k int) {
+func rotate189(nums []int, k int) {
 	n := len(nums)
 	k = k % n
 	if n <= 1 || k == 0 {
