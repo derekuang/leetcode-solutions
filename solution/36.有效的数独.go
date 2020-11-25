@@ -8,16 +8,15 @@ package solution
 
 // @lc code=start
 func isValidSudoku(board [][]byte) bool {
-	row, square := make([]map[byte]bool, 9), make([]map[byte]bool, 9)
+	row, square := make([][]bool, 9), make([][]bool, 9)
 	for i := 0; i < 9; i++ {
-		row[i] = map[byte]bool{}
-		square[i] = map[byte]bool{}
+		square[i], row[i] = make([]bool, 10), make([]bool, 10)
 	}
 	for i := 0; i < 9; i++ {
-		column := map[byte]bool{}
+		column := make([]bool, 10)
 		for j := 0; j < 9; j++ {
-			cur := board[i][j]
-			if cur == '.' {
+			cur := board[i][j] - 48
+			if cur+48 == '.' {
 				continue
 			} else if column[cur] || row[j][cur] || square[i/3*3+j/3][cur] {
 				return false
