@@ -8,15 +8,13 @@ package solution
 
 // @lc code=start
 func reverseList(head *ListNode) *ListNode {
-	dummy := &ListNode{}
-	p := head
-	for p != nil {
-		q := p.Next
-		p.Next = dummy.Next
-		dummy.Next = p
-		p = q
+	if head == nil || head.Next == nil {
+		return head
 	}
-	return dummy.Next
+	p := reverseList(head.Next)
+	head.Next.Next = head
+	head.Next = nil
+	return p
 }
 
 // @lc code=end
