@@ -37,16 +37,11 @@ func fourSumCount(A []int, B []int, C []int, D []int) (ans int) {
 			for k := 0; k < len(uniques[2]); k++ {
 				n2 := uniques[2][k]
 				c2 := counters[2][n2]
-				for l := 0; l < len(uniques[3]); l++ {
-					n3 := uniques[3][l]
-					c3 := counters[3][n3]
-					sum := n0 + n1 + n2 + n3
-					if sum == 0 {
-						ans += c0 * c1 * c2 * c3
-						break
-					} else if sum > 0 {
-						break
-					}
+
+				rest := -n0 - n1 - n2
+				c3 := counters[3][rest]
+				if c3 > 0 {
+					ans += c0 * c1 * c2 * c3
 				}
 			}
 		}
