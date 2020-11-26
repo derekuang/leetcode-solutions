@@ -8,24 +8,17 @@ package solution
 
 // @lc code=start
 func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-	dummy := &ListNode{}
-	d := dummy
-	for l1 != nil && l2 != nil {
-		if l1.Val <= l2.Val {
-			d.Next = l1
-			l1 = l1.Next
-		} else {
-			d.Next = l2
-			l2 = l2.Next
-		}
-		d = d.Next
-	}
-	if l1 != nil {
-		d.Next = l1
+	if l1 == nil {
+		return l2
+	} else if l2 == nil {
+		return l1
+	} else if l1.Val <= l2.Val {
+		l1.Next = mergeTwoLists(l1.Next, l2)
+		return l1
 	} else {
-		d.Next = l2
+		l2.Next = mergeTwoLists(l1, l2.Next)
+		return l2
 	}
-	return dummy.Next
 }
 
 // @lc code=end
