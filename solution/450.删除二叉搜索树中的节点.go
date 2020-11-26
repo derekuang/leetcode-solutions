@@ -7,15 +7,15 @@
 package solution
 
 // @lc code=start
-func deleteNode(root *TreeNode, key int) *TreeNode {
+func deleteNode450(root *TreeNode, key int) *TreeNode {
 	if root == nil {
 		return nil
 	}
 
 	if root.Val > key {
-		root.Left = deleteNode(root.Left, key)
+		root.Left = deleteNode450(root.Left, key)
 	} else if root.Val < key {
-		root.Right = deleteNode(root.Right, key)
+		root.Right = deleteNode450(root.Right, key)
 	} else {
 		if root.Left == nil {
 			return root.Right
