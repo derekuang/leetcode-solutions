@@ -27,23 +27,26 @@ func fourSumCount(A []int, B []int, C []int, D []int) (ans int) {
 		sort.Ints(t)
 		uniques[i] = t
 	}
-
-	for i := 0; i < len(uniques[0]); i++ {
-		n0 := uniques[0][i]
+	hash1, hash2 := map[int]int{}, map[int]int{}
+	for _, n0 := range uniques[0] {
 		c0 := counters[0][n0]
-		for j := 0; j < len(uniques[1]); j++ {
-			n1 := uniques[1][j]
+		for _, n1 := range uniques[1] {
 			c1 := counters[1][n1]
-			for k := 0; k < len(uniques[2]); k++ {
-				n2 := uniques[2][k]
-				c2 := counters[2][n2]
+			hash1[n0+n1] += c0 * c1
+		}
+	}
+	for _, n2 := range uniques[2] {
+		c2 := counters[2][n2]
+		for _, n3 := range uniques[3] {
+			c3 := counters[3][n3]
+			hash2[n2+n3] += c2 * c3
+		}
+	}
 
-				rest := -n0 - n1 - n2
-				c3 := counters[3][rest]
-				if c3 > 0 {
-					ans += c0 * c1 * c2 * c3
-				}
-			}
+	for k, v1 := range hash1 {
+		v2 := hash2[-k]
+		if v2 > 0 {
+			ans += v1 * v2
 		}
 	}
 	return
