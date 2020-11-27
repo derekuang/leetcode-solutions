@@ -34,10 +34,14 @@ func reverLinedList234(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
 	}
-	p := reverLinedList234(head.Next)
-	head.Next.Next = head
-	head.Next = nil
-	return p
+	dummy := &ListNode{}
+	for head != nil {
+		t := dummy.Next
+		dummy.Next = head
+		head = head.Next
+		dummy.Next.Next = t
+	}
+	return dummy.Next
 }
 
 // @lc code=end
