@@ -24,7 +24,7 @@ func minCut(s string) int {
 		// at most
 		cuts[i] = i
 		for j := 0; j <= i; j++ {
-			if isPalindrome(s[j : i+1]) {
+			if isPalindrome132(s[j : i+1]) {
 				var challenger int
 				if j == 0 {
 					challenger = 0
