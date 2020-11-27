@@ -9,7 +9,7 @@ package solution
 import "strings"
 
 // @lc code=start
-func isPalindrome(s string) bool {
+func isPalindrome125(s string) bool {
 	isLegal := func(c byte) bool {
 		return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')
 	}
